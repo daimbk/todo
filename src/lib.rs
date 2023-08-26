@@ -8,9 +8,10 @@ fn strikethrough_text(text: &mut String) {
     *text = format!("{}{}{}", strikethrough, text, reset_format);
 }
 
+// struct for each item
 pub struct TODO {
-    pub item: String,
-    pub done: bool,
+    pub list: Vec<String>,
+    pub num_items: i32,
 }
 
 impl TODO {
@@ -20,16 +21,23 @@ impl TODO {
             process::exit(1);
         }
 
-        self.item = item;
-        self.done = false;
+        self.list.push(item);
     }
 
-    pub fn done(&mut self) {
-        strikethrough_text(&mut self.item);
-        self.done = true;
+    pub fn done(&mut self, mut item_index: usize) {
+        item_index += 1;
+        
+        if let Some(item) = self.list.get_mut(item_index) {
+            strikethrough_text(item);
+        } else {
+            eprintln!("item {} does not exist", item_index);
+            process::exit(1);
+        }
     }
 
-    pub fn list_item(&self) {
-        println!("{}", self.item);
+    pub fn list(&self) {
+        for (index, item) in self.list.iter().enumerate() {
+            println!("{} {}", index + 1, item);
+        }
     }
 }
