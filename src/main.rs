@@ -33,10 +33,12 @@ fn main() {
             todo.add(item.to_string());
 
         } else if command == "done" && args.len() > 1 {
-            if let Ok(parsed_index) = args[1].parse::<usize>() {
-                todo.done(parsed_index);
-            } else {
-                println!("Failed to parse the index.");
+            for index in args[1..].iter() {
+                if let Ok(parsed_index) = index.parse::<usize>() {
+                    todo.done(parsed_index);
+                } else {
+                    println!("Failed to parse index: {}", index);
+                }
             }
 
         } else if command == "list" {
