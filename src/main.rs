@@ -8,7 +8,7 @@ fn main() {
         num_items: 0,
     };
 
-    println!("Welcome!");
+    println!("Welcome! Enter Command:");
 
     loop {
         let mut input = String::new();
@@ -26,7 +26,7 @@ fn main() {
         let command = args[0];
 
         if command == "exit" {
-            break; // Exit the loop if the command is "exit"
+            break;
 
         } else if command == "add" && args.len() > 1 {
             let item = args[1..].join(" ");
@@ -43,6 +43,7 @@ fn main() {
 
         } else if command == "list" {
             todo.list();
+            println!();
 
         } else {
             println!("Invalid command or missing arguments.");
