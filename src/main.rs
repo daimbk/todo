@@ -4,6 +4,7 @@ use std::env;
 use std::process;
 
 fn main() {
+    // command logic
     let mut todo = TODO {
         list: Vec::new(),
         num_items: 0,
@@ -40,7 +41,7 @@ fn main() {
             }
         }
         "list" => {
-            todo.list();
+            let _ = todo.list();
             println!();
         }
 
