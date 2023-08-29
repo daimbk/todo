@@ -72,7 +72,7 @@ impl TODO {
     }
 
     pub fn done(&mut self, mut item_index: usize) {
-        // TODO: open file and load items
+        let _ = self.load_items();
 
         item_index -= 1;
 
@@ -83,6 +83,14 @@ impl TODO {
             eprintln!("item {} does not exist", item_index);
             process::exit(1);
         }
+
+        // write to file with strikethrough
+        let mut file = File::create("list.txt").expect("file creation failed");
+        for item in &self.list {
+            writeln!(file, "{}", item).expect("file writing failed");
+        }
+
+        self.list.clear();
     }
 
     pub fn remove(&mut self, mut item_index: usize) -> io::Result<()> {

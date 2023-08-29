@@ -32,11 +32,15 @@ fn main() {
                 println!("Usage: {} done <index>", args[0]);
                 process::exit(1);
             }
-            if let Ok(parsed_index) = args[2].parse::<usize>() {
-                todo.done(parsed_index);
-            } else {
-                println!("Failed to parse the index.");
-                process::exit(1);
+
+            for index in args[2..].iter() {
+                if let Ok(parsed_index) = index.parse::<usize>() {
+                    todo.done(parsed_index);
+
+                } else {
+                    println!("Failed to parse index: {}", index);
+                    process::exit(1);
+                }
             }
         }
         "remove" => {
