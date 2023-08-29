@@ -40,6 +40,19 @@ fn main() {
                 process::exit(1);
             }
         }
+        "remove" => {
+            if args.len() < 3 {
+                println!("Incorrect Command\nRun todo help for more information.");
+                process::exit(1);
+            }
+            
+            if let Ok(parsed_index) = args[2].parse::<usize>() {
+                let _ = todo.remove(parsed_index);
+            } else {
+                println!("Failed to parse the index.");
+                process::exit(1);
+            }
+        }
         "list" => {
             let _ = todo.list();
             println!();

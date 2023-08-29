@@ -38,6 +38,8 @@ impl TODO {
     }
 
     pub fn done(&mut self, mut item_index: usize) {
+        // TODO: open file and load items
+
         item_index -= 1;
 
         if let Some(item) = self.list.get_mut(item_index) {
@@ -47,6 +49,34 @@ impl TODO {
             eprintln!("item {} does not exist", item_index);
             process::exit(1);
         }
+    }
+
+    pub fn remove(&self, mut item_index: usize) -> io::Result<()> {
+        item_index -= 1;
+
+        let mut content = std::fs::read_to_string("list.txt")?;
+
+        // remove the line by index
+        let lines: Vec<&str> = content.lines().collect();
+        if item_index < lines.len() {
+            content = lines.iter()
+                .enumerate()
+                .filter(|(i, _)| *i != item_index)
+                .map(|(_, line)| *line)
+                .collect::<Vec<&str>>()
+                .join("\n");
+            
+            content = content + "\n";
+            
+            let mut file = File::create("list.txt")?;
+            file.write_all(content.as_bytes())?;
+            
+        } else {
+            eprintln!("item {} does not exist", item_index + 1);
+            process::exit(1);
+        }
+
+        Ok(())
     }
 
     pub fn list(&self) -> io::Result<()> {
