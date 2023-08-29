@@ -7,7 +7,6 @@ fn main() {
     // command logic
     let mut todo = TODO {
         list: Vec::new(),
-        num_items: 0,
     };
 
     let args: Vec<String> = env::args().collect();
@@ -46,12 +45,16 @@ fn main() {
                 process::exit(1);
             }
             
-            if let Ok(parsed_index) = args[2].parse::<usize>() {
-                let _ = todo.remove(parsed_index);
-            } else {
-                println!("Failed to parse the index.");
-                process::exit(1);
+            for index in args[2..].iter() {
+                if let Ok(parsed_index) = index.parse::<usize>() {
+                    let _ = todo.remove(parsed_index);
+                } else {
+                    println!("Failed to parse the index.");
+                    process::exit(1);
+                }
             }
+
+            let _ = todo.remove_empty_lines();
         }
         "list" => {
             let _ = todo.list();
