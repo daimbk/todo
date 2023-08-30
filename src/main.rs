@@ -5,12 +5,9 @@ use std::process;
 
 fn main() {
     // command logic
-    let mut todo = TODO {
-        list: Vec::new(),
-    };
+    let mut todo = TODO::new().expect("failed to initialize");
 
     let args: Vec<String> = env::args().collect();
-
     if args.len() < 2 {
         println!("Usage: {} <command> [arguments]", args[0]);
         process::exit(1);
