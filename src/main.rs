@@ -1,7 +1,7 @@
+use std::{ env, process };
+
 mod lib;
 use lib::TODO;
-use std::env;
-use std::process;
 
 fn main() {
     // command logic
@@ -9,7 +9,7 @@ fn main() {
 
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
-        println!("Usage: {} <command> [arguments]", args[0]);
+        println!("Atleast 2 arguments required. Use 'todo help'.");
         process::exit(1);
     }
 
@@ -17,19 +17,11 @@ fn main() {
 
     match command.as_str() {
         "add" => {
-            if args.len() < 3 {
-                println!("Usage: {} add <item>", args[0]);
-                process::exit(1);
-            }
             let item = args[2..].join(" ");
             todo.add(item);
         }
-        "done" => {
-            if args.len() < 3 {
-                println!("Usage: {} done <index>", args[0]);
-                process::exit(1);
-            }
 
+        "done" => {
             for index in args[2..].iter() {
                 if let Ok(parsed_index) = index.parse::<usize>() {
                     todo.done(parsed_index);
@@ -40,15 +32,12 @@ fn main() {
                 }
             }
         }
+
         "remove" => {
-            if args.len() < 3 {
-                println!("Incorrect Command\nRun todo help for more information.");
-                process::exit(1);
-            }
-            
             for index in args[2..].iter() {
                 if let Ok(parsed_index) = index.parse::<usize>() {
                     let _ = todo.remove(parsed_index);
+
                 } else {
                     println!("Failed to parse the index.");
                     process::exit(1);
@@ -57,17 +46,14 @@ fn main() {
 
             let _ = todo.remove_empty_lines();
         }
+
         "list" => {
             let _ = todo.list();
             println!();
         }
 
-        "exit" => {
-            println!("Exiting...");
-            process::exit(0);
-        }
         _ => {
-            println!("Unknown command: {}", command);
+            println!("Unknown command. Use 'todo help'");
             process::exit(1);
         }
     }
