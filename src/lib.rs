@@ -1,5 +1,4 @@
-use std::env;
-use std::process;
+use std:: { env, process };
 use std::fs::{ OpenOptions, File};
 use std::io::{ self, Write, BufRead };
 use whoami::username;
@@ -75,7 +74,6 @@ impl TODO {
         }
 
         // store list
-        // TODO: replace txt with database
         let mut list_file = OpenOptions::new()
             .create(true) // create the file if it does not exist
             .append(true)
