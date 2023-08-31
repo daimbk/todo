@@ -1,7 +1,6 @@
 use std::{ env, process };
 
-mod lib;
-use lib::TODO;
+use todo::functions::TODO;
 
 fn main() {
     // command logic
