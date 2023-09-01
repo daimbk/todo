@@ -1,6 +1,7 @@
 use std:: { env, process };
 use std::fs::{ OpenOptions, File};
-use std::io::{ self, Write, BufRead };
+use std::io::{ self, Write, BufRead, Result };
+
 use whoami::username;
 
 // strikethrough items when marked done
@@ -17,7 +18,7 @@ pub struct TODO {
 }
 
 impl TODO {
-    pub fn new() -> io::Result<Self> {
+    pub fn new() -> Result<Self> {
         let file_path = match env::consts::OS {
             // C:\Users\daim\Documents\TODO
             "windows" => format!("C:\\Users\\{}\\Documents\\TODO\\list.txt", username()),
@@ -32,7 +33,7 @@ impl TODO {
         Ok(todo)
     }
 
-    fn load_items(&mut self) -> io::Result<()> {
+    fn load_items(&mut self) -> Result<()> {
         // open file and load items
         let list_file = File::open(&self.file_path)?;
         let reader = io::BufReader::new(list_file);
@@ -46,7 +47,7 @@ impl TODO {
     }
 
     // remove empty lines
-    pub fn remove_empty_lines(&mut self) -> io::Result<()> {
+    pub fn remove_empty_lines(&mut self) -> Result<()> {
         let list_file = File::open(&self.file_path)?;
         let reader = io::BufReader::new(list_file);
 
@@ -132,7 +133,7 @@ impl TODO {
         Ok(())
     }
 
-    pub fn list(&self) -> io::Result<()> {
+    pub fn list(&self) -> Result<()> {
         println!();
         println!("TODO:");
 
@@ -147,5 +148,26 @@ impl TODO {
         }
 
         Ok(())
+    }
+
+    pub fn help(&self) {
+        let help: &str = "\tUsage: todo 'command' 'arg'
+        Example: todo add buy groceries
+        
+        Commands:
+        - add [item]
+        'adds the item to the todo list'
+
+        - done [item number/s]
+        'marks the item/s as completed'
+
+        - remove [item number/s]
+        'deletes the item/s from the list'
+
+        - list
+        'displays the todo list'
+        ";
+
+        println!("{}", help);
     }
 }

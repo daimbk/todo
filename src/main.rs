@@ -51,6 +51,10 @@ fn main() {
             println!();
         }
 
+        "help" => {
+            todo.help();
+        }
+
         _ => {
             println!("Unknown command. Use 'todo help'");
             process::exit(1);
