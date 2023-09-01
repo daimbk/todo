@@ -133,21 +133,17 @@ impl TODO {
         Ok(())
     }
 
-    pub fn list(&self) -> Result<()> {
+    pub fn list(&mut self) {
         println!();
         println!("TODO:");
 
-        let list_file = File::open(&self.file_path)?;
+        let _ = self.load_items();
 
-        // create a BufReader to read the file line by line
-        let reader = io::BufReader::new(list_file);
-
-        for (index, line) in reader.lines().enumerate() {
-            let line = line?;
+        for (index, line) in self.list.iter().enumerate() {
             println!("{} {}", index + 1, line);
         }
 
-        Ok(())
+        self.list.clear();
     }
 
     pub fn help(&self) {
