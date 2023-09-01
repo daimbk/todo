@@ -1,5 +1,5 @@
 use std:: { env, process };
-use std::fs::{ OpenOptions, File};
+use std::fs::{ OpenOptions, File, remove_file };
 use std::io::{ self, Write, BufRead, Result };
 
 use whoami::username;
@@ -131,6 +131,15 @@ impl TODO {
         self.list.clear();
 
         Ok(())
+    }
+
+    pub fn reset(&self) {
+        match remove_file(&self.file_path) {
+            Ok(_) => {}
+            Err(e) => {
+                eprintln!("Error while clearing todo file: {}", e)
+            }
+        };
     }
 
     pub fn list(&mut self) {
