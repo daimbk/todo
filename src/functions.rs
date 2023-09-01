@@ -1,6 +1,7 @@
 use std:: { env, process };
-use std::fs::{ OpenOptions, File};
-use std::io::{ self, Write, BufRead };
+use std::fs::{ OpenOptions, File, remove_file };
+use std::io::{ self, Write, BufRead, Result };
+
 use whoami::username;
 
 // strikethrough items when marked done
@@ -17,7 +18,7 @@ pub struct TODO {
 }
 
 impl TODO {
-    pub fn new() -> io::Result<Self> {
+    pub fn new() -> Result<Self> {
         let file_path = match env::consts::OS {
             // C:\Users\daim\Documents\TODO
             "windows" => format!("C:\\Users\\{}\\Documents\\TODO\\list.txt", username()),
@@ -32,7 +33,7 @@ impl TODO {
         Ok(todo)
     }
 
-    fn load_items(&mut self) -> io::Result<()> {
+    fn load_items(&mut self) -> Result<()> {
         // open file and load items
         let list_file = File::open(&self.file_path)?;
         let reader = io::BufReader::new(list_file);
@@ -46,7 +47,7 @@ impl TODO {
     }
 
     // remove empty lines
-    pub fn remove_empty_lines(&mut self) -> io::Result<()> {
+    pub fn remove_empty_lines(&mut self) -> Result<()> {
         let list_file = File::open(&self.file_path)?;
         let reader = io::BufReader::new(list_file);
 
@@ -132,20 +133,46 @@ impl TODO {
         Ok(())
     }
 
-    pub fn list(&self) -> io::Result<()> {
+    pub fn reset(&self) {
+        match remove_file(&self.file_path) {
+            Ok(_) => {}
+            Err(e) => {
+                eprintln!("Error while clearing todo file: {}", e)
+            }
+        };
+    }
+
+    pub fn list(&mut self) {
         println!();
         println!("TODO:");
 
-        let list_file = File::open(&self.file_path)?;
+        let _ = self.load_items();
 
-        // create a BufReader to read the file line by line
-        let reader = io::BufReader::new(list_file);
-
-        for (index, line) in reader.lines().enumerate() {
-            let line = line?;
+        for (index, line) in self.list.iter().enumerate() {
             println!("{} {}", index + 1, line);
         }
 
-        Ok(())
+        self.list.clear();
+    }
+
+    pub fn help(&self) {
+        let help: &str = "\tUsage: todo 'command' 'arg'
+        Example: todo add buy groceries
+        
+        Commands:
+        - add [item]
+        'adds the item to the todo list'
+
+        - done [item number/s]
+        'marks the item/s as completed'
+
+        - remove [item number/s]
+        'deletes the item/s from the list'
+
+        - list
+        'displays the todo list'
+        ";
+
+        println!("{}", help);
     }
 }

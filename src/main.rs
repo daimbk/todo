@@ -46,9 +46,17 @@ fn main() {
             let _ = todo.remove_empty_lines();
         }
 
+        "reset" => {
+            todo.reset();
+        }
+
         "list" => {
             let _ = todo.list();
             println!();
+        }
+
+        "help" => {
+            todo.help();
         }
 
         _ => {
