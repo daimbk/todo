@@ -1,9 +1,12 @@
-# todo-rust
+<h1 align="center">todo-rust</h1>
 
-CLI TODO List in Rust
+![cover](https://github.com/daimbk/todo/assets/51926730/fb1ac493-d1d7-4674-bd68-02e269fecde7)
 
+<hr>
+
+<p align = "center">CLI TODO List in Rust</p>
 <p align = "center">
-  <img src="https://github.com/daimbk/todo/assets/51926730/267d20ca-9d55-44f2-b6d7-fd7f4eb6d7e7" width="497" height="126"/>
+  <img align="center" src="https://github.com/daimbk/todo/assets/51926730/267d20ca-9d55-44f2-b6d7-fd7f4eb6d7e7" width="497" height="126"/>
 </p>
 
 ## Getting Started
