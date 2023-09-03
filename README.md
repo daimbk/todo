@@ -1,4 +1,5 @@
 # todo-rust
+
 CLI TODO List in Rust
 
 <p align = "center">
@@ -6,11 +7,21 @@ CLI TODO List in Rust
 </p>
 
 ## Getting Started
-1. Unzip folder
-2. Run createAlias to add todo.exe to User Path
-3. Use todo (in any shell / anywhere on the system) using the following commands
+
+- ### Windows
+
+  1. Unzip folder
+  2. Run createAlias to add todo.exe to User Path or add manually
+  3. Use todo using provided commands
+
+- ### Linux
+
+  1. Unzip folder
+  2. Add $HOME/bin to path manually or run linuxPath script
+  3. Use todo using provided commands
 
 ## Commands
+
 *view using "todo help"*
 
 Usage: todo 'command' 'arg'
