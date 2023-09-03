@@ -169,6 +169,9 @@ impl TODO {
         - remove [item number/s]
         'deletes the item/s from the list'
 
+        - reset
+        'deletes the item/s from the list'
+
         - list
         'displays the todo list'
         ";
