@@ -2,14 +2,13 @@
 CLI TODO List in Rust
 
 <p align = "center">
-  <img src="https://github.com/daimbk/todo/assets/51926730/267d20ca-9d55-44f2-b6d7-fd7f4eb6d7e7" width="497" height="126" border="15"/>
+  <img src="https://github.com/daimbk/todo/assets/51926730/267d20ca-9d55-44f2-b6d7-fd7f4eb6d7e7" width="497" height="126"/>
 </p>
 
 ## Getting Started
 1. Unzip folder
-2. Open terminal
-3. Run AddToPath
-4. Use todo using the following commands
+2. Run createAlias to add todo.exe to User Path
+3. Use todo (in any shell / anywhere on the system) using the following commands
 
 ## Commands
 *view using "todo help"*
