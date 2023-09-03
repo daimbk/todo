@@ -10,15 +10,15 @@ CLI TODO List in Rust
 
 - ### Windows
 
-  1. Unzip folder
-  2. Run createAlias to add todo.exe to User Path or add manually
-  3. Use todo using provided commands
+  - Unzip folder
+  - Run createAlias to add todo.exe to User Path or add manually
+  - Use todo using provided commands
 
 - ### Linux
 
-  1. Unzip folder
-  2. Add $HOME/bin to path manually or run linuxPath script
-  3. Use todo using provided commands
+  - Unzip folder
+  - Add $HOME/bin to path manually or run linuxPath script
+  - Use todo using provided commands
 
 ## Commands
 
