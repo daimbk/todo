@@ -1,6 +1,7 @@
-use std:: { env, process };
+use std:: { env, process, fs };
 use std::fs::{ OpenOptions, File, remove_file };
 use std::io::{ self, Write, BufRead, Result };
+use std::path::PathBuf;
 
 use whoami::username;
 
@@ -19,19 +20,29 @@ pub struct TODO {
 
 impl TODO {
     pub fn new() -> Result<Self> {
-        let file_path = match env::consts::OS {
-            // C:\Users\daim\Documents\TODO
-            "windows" => format!("C:\\Users\\{}\\Documents\\TODO\\list.txt", username()),
-            "linux" => format!("/home/{}/TODO/list.txt", username()),
+        let user_dir = match env::consts::OS {
+            "windows" => format!("C:\\Users\\{}\\Documents\\TODO", username()),
+            "linux" => format!("/home/{}/TODO", username()),
             _ => {
                 eprintln!("Unsupported operating system");
                 process::exit(1);
             }
         };
 
+        // create a PathBuf from the user_dir string
+        let user_dir_path = PathBuf::from(&user_dir);
+
+        // create the directory if it doesn't exist
+        if !user_dir_path.exists() {
+            fs::create_dir_all(&user_dir_path).expect("Failed to create directory");
+        }
+
+        let file_path = format!("{}/list.txt", user_dir);
+
         let todo = TODO { list: Vec::new(), file_path: file_path.to_string() };
         Ok(todo)
     }
+
 
     fn load_items(&mut self) -> Result<()> {
         // open file and load items
@@ -74,17 +85,21 @@ impl TODO {
             process::exit(1);
         }
 
-        // store list
         let mut list_file = OpenOptions::new()
-            .create(true) // create the file if it does not exist
+            .create(true)
             .append(true)
-            .open(&self.file_path)
-            .expect("Couldn't open the todofile");
+            .open(&self.file_path);
 
-        item = item + "\n";
-        list_file
-            .write(item.as_bytes())
-            .expect("write file failed");
+        match list_file {
+            Ok(ref mut file) => {
+                item = item + "\n";
+                file.write(item.as_bytes()).expect("write file failed");
+            }
+            Err(e) => {
+                eprintln!("Error opening todo file: {}", e);
+                process::exit(1);
+            }
+        }
     }
 
     pub fn done(&mut self, mut item_index: usize) {
